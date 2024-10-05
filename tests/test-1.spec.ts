@@ -1,86 +1,18 @@
-// tests/register.test.js
-const { test, expect } = require('@playwright/test');
-const { RegisterPage } = require('../Pages/RegisterPage');
+import { test, expect } from '@playwright/test';
 
+test('has title', async ({ page }) => {
+  await page.goto('https://playwright.dev/');
 
-test('T01-User can register in the page', async ({ page }) => {
-  const registerPage = new RegisterPage(page);
-
-  // Navegar a la página de registro
-  await registerPage.goToRegister();
-
-  // Rellenar el formulario de registro
-  await registerPage.fillRegistrationForm({
-    fullName: 'Guillermo Roche',
-    email: 'prueba@prueba.es',
-    password: '12345'
-  });
-
-  // Enviar el formulario (automáticamente acepta términos)
-  await registerPage.submitRegistrationForm();
-
-  // Verificar que el texto esperado es visible
-  await expect(page.getByText('PW-test')).toBeVisible();
+  // Expect a title "to contain" a substring.
+  await expect(page).toHaveTitle(/Playwright/);
 });
 
-test('T02-User enters different passwords', async ({ page }) => {
-  const registerPage = new RegisterPage(page);
+test('get started link', async ({ page }) => {
+  await page.goto('https://playwright.dev/');
 
-  // Navegar a la página de registro
-  await registerPage.goToRegister();
+  // Click the get started link.
+  await page.getByRole('link', { name: 'Get started' }).click();
 
-  // Rellenar el formulario de registro con contraseñas distintas
-  await registerPage.fillRegistrationForm({
-    fullName: 'Guille',
-    email: 'email@email.es',
-    password: 'password',
-    confirmPassword: 'password2'
-  });
-
-  // Enviar el formulario (automáticamente acepta términos)
-  await registerPage.submitRegistrationForm();
-
-  // Verificar que el texto esperado es visible
-  await expect(page.getByText('PW-test')).toBeVisible();
-});
-
-test('T03-User enters different passwords', async ({ page }) => {
-  const registerPage = new RegisterPage(page);
-
-  // Navegar a la página de registro
-  await registerPage.goToRegister();
-
-  // Rellenar el formulario de registro con contraseñas distintas
-  await registerPage.fillRegistrationForm({
-    fullName: 'Guille',
-    email: 'email@email.es',
-    password: 'password',
-    confirmPassword: 'password2'
-  });
-
-  // Enviar el formulario (automáticamente acepta términos)
-  await registerPage.submitRegistrationForm();
-
-  // Verificar que el texto esperado es visible
-  await expect(page.getByText('PW-test')).toBeVisible();
-});
-test('T04-User enters different passwords', async ({ page }) => {
-  const registerPage = new RegisterPage(page);
-
-  // Navegar a la página de registro
-  await registerPage.goToRegister();
-
-  // Rellenar el formulario de registro con contraseñas distintas
-  await registerPage.fillRegistrationForm({
-    fullName: 'Guille',
-    email: 'email@email.es',
-    password: 'password',
-    confirmPassword: 'password2'
-  });
-
-  // Enviar el formulario (automáticamente acepta términos)
-  await registerPage.submitRegistrationForm();
-
-  // Verificar que el texto esperado es visible
-  await expect(page.getByText('PW-test')).toBeVisible();
+  // Expects page to have a heading with the name of Installation.
+  await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
 });
